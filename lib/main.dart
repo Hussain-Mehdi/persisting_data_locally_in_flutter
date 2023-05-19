@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'screens/setting_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const SettingScreen());
 }
 
 class MyApp extends StatelessWidget {

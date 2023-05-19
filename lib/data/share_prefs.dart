@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SPSetting {
   final String fontSizeKey = 'font_size';
   final String colorKey = 'color';
+  final String themeOn = "theme_on";
   static late SharedPreferences _sp;
   static SPSetting? _instance;
 
@@ -25,9 +26,7 @@ class SPSetting {
 
   int getColor() {
     int? color = _sp.getInt(colorKey);
-    if (color == null) {
-      color = 0xff1976d2;
-    }
+    color ??= 0xff1976d2;
     return color;
   }
 
@@ -40,5 +39,15 @@ class SPSetting {
 
     fontSize ??= 14;
     return fontSize;
+  }
+
+  Future setTheme(bool theme) async {
+    return _sp.setBool(themeOn, theme);
+  }
+
+  bool getTheme() {
+    bool? themePref = _sp.getBool(themeOn);
+    themePref ??= false;
+    return themePref;
   }
 }

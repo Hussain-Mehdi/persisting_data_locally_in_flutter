@@ -11,6 +11,7 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   int settingColor = 0xff1976d2;
+
   double singleFontSize = 16;
   List<int> colors = [
     0xff455a64,
@@ -28,13 +29,17 @@ class _SettingScreenState extends State<SettingScreen> {
   ];
 
   SPSetting setting = SPSetting();
+  bool buttonOn = false;
 
   @override
   void initState() {
     setting.init().then((value) {
       setState(() {
         settingColor = setting.getColor();
-        fontSizes = setting.getFontSize() as List<FontSize>;
+
+        singleFontSize = setting.getFontSize();
+
+        buttonOn = setting.getTheme();
       });
     });
     super.initState();
@@ -42,51 +47,74 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Setting"),
-        backgroundColor: Color(settingColor),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            "Chose the App font size",
-            style:
-                TextStyle(fontSize: singleFontSize, color: Color(settingColor)),
-          ),
-          DropdownButton(
-            value: singleFontSize.toString(),
-            items: getDropdownMenuItem(),
-            onChanged: changeSize,
-          ),
-          const Text("App Main Color"),
-          Row(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          brightness: buttonOn == true ? Brightness.dark : Brightness.light),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Setting"),
+          backgroundColor: Color(settingColor),
+          actions: [
+            Switch(
+              value: buttonOn,
+              activeColor: Color(settingColor),
+              onChanged: changeTheme,
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
-                onTap: () => setColor(colors[0]),
-                child: ColorSquare(colors[0]),
+              Text(
+                "Dark",
+                style: TextStyle(fontSize: 20, color: Color(settingColor)),
               ),
-              GestureDetector(
-                onTap: () => setColor(colors[1]),
-                child: ColorSquare(colors[1]),
+              Text(
+                "Chose the App font size",
+                style: TextStyle(
+                    fontSize: singleFontSize, color: Color(settingColor)),
               ),
-              GestureDetector(
-                onTap: () => setColor(colors[2]),
-                child: ColorSquare(colors[2]),
+              DropdownButton(
+                items: getDropdownMenuItem(),
+                // fontSizes.map((e) {
+                //   return DropdownMenuItem(
+                //     value: e.size.toString(),
+                //     child: Text(e.name),
+                //   );
+                // }).toList(),
+                onChanged: changeSize,
               ),
-              GestureDetector(
-                onTap: () => setColor(colors[3]),
-                child: ColorSquare(colors[3]),
-              ),
-              GestureDetector(
-                onTap: () => setColor(colors[4]),
-                child: ColorSquare(colors[4]),
-              ),
+              const Text("App Main Color"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => setColor(colors[0]),
+                    child: ColorSquare(colors[0]),
+                  ),
+                  GestureDetector(
+                    onTap: () => setColor(colors[1]),
+                    child: ColorSquare(colors[1]),
+                  ),
+                  GestureDetector(
+                    onTap: () => setColor(colors[2]),
+                    child: ColorSquare(colors[2]),
+                  ),
+                  GestureDetector(
+                    onTap: () => setColor(colors[3]),
+                    child: ColorSquare(colors[3]),
+                  ),
+                  GestureDetector(
+                    onTap: () => setColor(colors[4]),
+                    child: ColorSquare(colors[4]),
+                  ),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
@@ -94,7 +122,7 @@ class _SettingScreenState extends State<SettingScreen> {
   void setColor(int colorCode) {
     setState(() {
       settingColor = colorCode;
-      setting.setColor(colorCode);
+      setting.setColor(settingColor);
     });
   }
 
@@ -114,6 +142,13 @@ class _SettingScreenState extends State<SettingScreen> {
     setting.setFontSize(double.parse(newSize ?? '14'));
     setState(() {
       singleFontSize = double.parse(newSize ?? '14');
+    });
+  }
+
+  changeTheme(bool value) {
+    setting.setTheme(value);
+    setState(() {
+      buttonOn = value;
     });
   }
 }
