@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import "package:flutter/material.dart";
 import '../model/font_size.dart';
 import '../data/share_prefs.dart';
@@ -13,6 +15,7 @@ class _SettingScreenState extends State<SettingScreen> {
   int settingColor = 0xff1976d2;
 
   double singleFontSize = 16;
+  double padding = 0;
   List<int> colors = [
     0xff455a64,
     0xffffc107,
@@ -30,6 +33,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   SPSetting setting = SPSetting();
   bool buttonOn = false;
+  bool tap = false;
 
   @override
   void initState() {
@@ -59,7 +63,11 @@ class _SettingScreenState extends State<SettingScreen> {
             Switch(
               value: buttonOn,
               activeColor: Color(settingColor),
+              activeTrackColor: Colors.white,
               onChanged: changeTheme,
+              trackOutlineColor: MaterialStateProperty.all(Colors.white),
+              inactiveThumbImage: const AssetImage("./images/theme_icon.png"),
+              activeThumbImage: const AssetImage("./images/theme_icon.png"),
             ),
           ],
         ),
@@ -68,14 +76,51 @@ class _SettingScreenState extends State<SettingScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                "Dark",
-                style: TextStyle(fontSize: 20, color: Color(settingColor)),
-              ),
-              Text(
                 "Chose the App font size",
                 style: TextStyle(
                     fontSize: singleFontSize, color: Color(settingColor)),
               ),
+              // SizedBox(
+              //   width: 60,
+              //   child: Stack(
+              //     children: [
+              //       Container(
+              //         width: 60,
+              //         height: 30,
+              //         decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(20),
+              //             border: Border.all(color: Colors.black26)),
+              //       ),
+              //       GestureDetector(
+              //         onTap: () {
+              //           if (tap) {
+              //             print("pressed");
+              //             setState(() {
+              //               tap = false;
+              //               padding = 30;
+              //             });
+              //           } else {
+              //             setState(() {
+              //               tap = true;
+              //               padding = 0;
+              //             });
+              //           }
+              //         },
+              //         child: AnimatedContainer(
+              //           margin: EdgeInsets.only(left: padding),
+              //           duration: Duration(milliseconds: 200),
+              //           curve: Curves.easeInOut,
+              //           width: 30,
+              //           height: 30,
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(20),
+              //               // border: Border.all(color: Colors.black26)
+              //               color: Colors.amber),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               DropdownButton(
                 items: getDropdownMenuItem(),
                 // fontSizes.map((e) {
