@@ -80,55 +80,8 @@ class _SettingScreenState extends State<SettingScreen> {
                 style: TextStyle(
                     fontSize: singleFontSize, color: Color(settingColor)),
               ),
-              // SizedBox(
-              //   width: 60,
-              //   child: Stack(
-              //     children: [
-              //       Container(
-              //         width: 60,
-              //         height: 30,
-              //         decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(20),
-              //             border: Border.all(color: Colors.black26)),
-              //       ),
-              //       GestureDetector(
-              //         onTap: () {
-              //           if (tap) {
-              //             print("pressed");
-              //             setState(() {
-              //               tap = false;
-              //               padding = 30;
-              //             });
-              //           } else {
-              //             setState(() {
-              //               tap = true;
-              //               padding = 0;
-              //             });
-              //           }
-              //         },
-              //         child: AnimatedContainer(
-              //           margin: EdgeInsets.only(left: padding),
-              //           duration: Duration(milliseconds: 200),
-              //           curve: Curves.easeInOut,
-              //           width: 30,
-              //           height: 30,
-              //           decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(20),
-              //               // border: Border.all(color: Colors.black26)
-              //               color: Colors.amber),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               DropdownButton(
                 items: getDropdownMenuItem(),
-                // fontSizes.map((e) {
-                //   return DropdownMenuItem(
-                //     value: e.size.toString(),
-                //     child: Text(e.name),
-                //   );
-                // }).toList(),
                 onChanged: changeSize,
               ),
               const Text("App Main Color"),
